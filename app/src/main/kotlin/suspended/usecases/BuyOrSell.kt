@@ -1,5 +1,10 @@
 package suspended.usecases
 
+import arrow.fx.coroutines.parZip
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import suspended.core.Recommendation
 import suspended.core.Symbol
 import suspended.core.analyze
@@ -11,8 +16,12 @@ suspend fun Service.buyOrSell(stock: Symbol): Recommendation {
     /*
     IMPURE
      */
-    val currPrice = stockGateway.getStock(stock)
-    val prices = stockHistoryRepo.fetchPreviousStockValues(stock) + currPrice
+    val (currPrice, prices) = parZip(
+        { stockGateway.getStock(stock) },
+        { stockHistoryRepo.fetchPreviousStockValues(stock) }
+    ) { current, historical ->
+        Pair(current, historical + current)
+    }
 
     /*
     PURE
@@ -22,7 +31,7 @@ suspend fun Service.buyOrSell(stock: Symbol): Recommendation {
     /*
     IMPURE
      */
-    stockHistoryRepo.appendToHistory(stock, currPrice)
+    fireAndForget { stockHistoryRepo.appendToHistory(stock, currPrice) }
 
     return recommendation
 }
@@ -33,7 +42,9 @@ suspend fun Service.buyOrSell(stock: Symbol): Recommendation {
 //}
 
 
-//suspend fun fireAndForget(block: suspend () -> Unit): Unit = coroutineScope {
-//    async { block() }
-//}
+@OptIn(DelicateCoroutinesApi::class)
+suspend fun fireAndForget(block: suspend () -> Unit): Job =
+    GlobalScope.launch {
+        block()
+    }
 

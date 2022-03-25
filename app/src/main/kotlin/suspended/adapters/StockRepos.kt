@@ -6,10 +6,10 @@ import suspended.core.Value
 import suspended.core.Values
 
 data class MockStockHistoryRepo(
-    private val _fetchPreviousStockValues: (Symbol) -> Values = { symbol ->
+    private val _fetchPreviousStockValues: suspend (Symbol) -> Values = { symbol ->
         listOf(1, 2, 3)
     },
-    private val _appendToHistory: (Symbol, Value) -> Unit = { _, _ -> Unit },
+    private val _appendToHistory: suspend (Symbol, Value) -> Unit = { _, _ -> Unit },
 ) : StockHistoryRepo {
     override suspend fun fetchPreviousStockValues(symbol: Symbol): Values =
         _fetchPreviousStockValues(symbol)
