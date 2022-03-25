@@ -1,3 +1,8 @@
+import suspended.blockAndTime
+
+blockAndTime { wait(5000) }
+suspend fun wait(x: Int): Unit = Thread.sleep(x.toLong())
+
 /*
 Pitch:
 Default to making your "ports" `suspend`
@@ -49,7 +54,6 @@ Architecture
  */
 
 
-//suspend fun wait(x: Int): Unit = Thread.sleep(x.toLong())
 //
 //runBlocking {
 //    measureTime {
