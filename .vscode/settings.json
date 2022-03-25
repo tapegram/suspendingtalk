@@ -1,0 +1,7 @@
+{
+  "editor.defaultFormatter": "fwcd.kotlin",
+  "editor.formatOnSave": true,
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false
+}
