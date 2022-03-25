@@ -32,3 +32,8 @@ suspend fun Service.buyOrSell(stock: Symbol): Recommendation {
 //    async { stockHistoryRepo.appendToHistory(stock, currPrice) }
 //}
 
+
+//suspend fun fireAndForget(block: suspend () -> Unit): Unit = coroutineScope {
+//    async { block() }
+//}
+
