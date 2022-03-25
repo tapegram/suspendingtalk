@@ -27,3 +27,8 @@ suspend fun Service.buyOrSell(stock: Symbol): Recommendation {
     return recommendation
 }
 
+
+//private suspend fun Service.appendToHistory(stock: Symbol, currPrice: Value) = coroutineScope {
+//    async { stockHistoryRepo.appendToHistory(stock, currPrice) }
+//}
+

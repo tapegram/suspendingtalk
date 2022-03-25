@@ -2,9 +2,12 @@ package suspended
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import suspended.adapters.GatewayThatFetchesFromManySourcesToFindTheFastestOne
+import suspended.adapters.GatewayThatGetsTheAverageOfMultipleSources
+import suspended.adapters.InMemoryStockGateway
 
 val inMemoryStockRepo =
-    InMemoryStockRepo(
+    InMemoryStockGateway(
         mapOf(
             "PTON" to 100,
         )

@@ -7,6 +7,14 @@ import suspended.core.Symbol
 import suspended.core.Value
 
 
+data class MockStockGateway(
+    val _getStock: (Symbol) -> Value = { _ -> 5 }
+) : StockGateway {
+    override suspend fun getStock(symbol: Symbol): Value =
+        _getStock(symbol)
+
+}
+
 data class InMemoryStockGateway(private val stocks: Map<Symbol, Value>) : StockGateway {
     override suspend fun getStock(symbol: Symbol): Value {
         Thread.sleep(1000)
