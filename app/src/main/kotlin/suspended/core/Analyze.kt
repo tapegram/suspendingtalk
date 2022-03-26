@@ -10,7 +10,7 @@ sealed class Recommendation {
 Our secret sauce, "The Algorithm"
  */
 fun Values.analyze(): Recommendation {
-    if (this.hasEnoughInfo()) {
+    if (!this.hasEnoughInfo()) {
         // Not enough info!
         return Recommendation.HOLD
     }
