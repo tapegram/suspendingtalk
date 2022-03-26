@@ -8,7 +8,7 @@ import suspended.core.Value
 
 
 data class MockStockGateway(
-    val _getStock: (Symbol) -> Value = { _ -> 5 }
+    val _getStock: suspend (Symbol) -> Value = { _ -> 5 }
 ) : StockGateway {
     override suspend fun getStock(symbol: Symbol): Value =
         _getStock(symbol)
